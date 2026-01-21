@@ -1,0 +1,14 @@
+import 'package:get/get.dart';
+import 'package:simple_learning_tracker/bindings/create_bindings.dart';
+import 'package:simple_learning_tracker/pages/create_pages.dart';
+import 'package:simple_learning_tracker/routes/routes.dart';
+
+class AppPages {
+  static final pages = [
+    GetPage(
+      name: AppRoutes.createPage,
+      page: () => CreatePage(),
+      binding: CreateBinding(),
+    ),
+  ];
+}
