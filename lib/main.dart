@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_learning_tracker/pages/homePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
