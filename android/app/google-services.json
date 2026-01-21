@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "199969260920",
+    "firebase_url": "https://kelompok1-dbf62-default-rtdb.firebaseio.com",
+    "project_id": "kelompok1-dbf62",
+    "storage_bucket": "kelompok1-dbf62.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199969260920:android:2f6b2f24f98268af31748d",
+        "android_client_info": {
+          "package_name": "com.example.simple_learning_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-ntbKxQs--Gb9qJdGBqs4Kbq3dgTEDkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
