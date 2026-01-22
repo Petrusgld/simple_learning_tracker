@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_learning_tracker/routes/pages.dart';
 import 'package:simple_learning_tracker/routes/routes.dart';
-import 'package:simple_learning_tracker/pages/homePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
