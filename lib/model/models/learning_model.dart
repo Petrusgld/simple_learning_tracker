@@ -25,7 +25,7 @@ class LearningModel {
     required this.createdAt,
   });
 
-  // FROM REALTIME DATABASE
+  //from realtime database
   factory LearningModel.fromRealtime(DataSnapshot snapshot) {
     final data = snapshot.value as Map<dynamic, dynamic>;
 
@@ -43,7 +43,7 @@ class LearningModel {
     );
   }
 
-  // TO REALTIME DATABASE
+  //to realtime database
   Map<String, dynamic> toMap() {
     return {
       "subject": subject,

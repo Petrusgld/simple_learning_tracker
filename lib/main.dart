@@ -23,13 +23,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return GetMaterialApp(  
       title: 'Learning Tracker',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4318FF)),
         useMaterial3: true,
       ),
-      initialRoute: AppRoutes.homePage,
+      initialRoute: AppRoutes.navbarPage,
       getPages: AppPages.pages,
       debugShowCheckedModeBanner: false,
     );
