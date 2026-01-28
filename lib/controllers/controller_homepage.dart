@@ -5,35 +5,48 @@ import 'package:simple_learning_tracker/model/models/learning_model.dart';
 import 'package:simple_learning_tracker/routes/routes.dart';
 
 class HomeController extends GetxController {
+
   final dbRef = FirebaseDatabase.instance.ref("learning_tracker");
   final historyRef = FirebaseDatabase.instance.ref("learning_history");
-  
+
+  // ================= STATE =================
+
+  RxBool isloading = true.obs;
+
   RxList<LearningModel> learningList = <LearningModel>[].obs;
-  RxBool isLoading = true.obs;
-  
+
+  // ================= INIT =================
+
   @override
   void onInit() {
     super.onInit();
-    fetchData();
+    fetchLearningRealtime();
   }
 
-  void fetchData() {
-    dbRef.onValue.listen((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+  // ================= FETCH REALTIME =================
 
-      if (data != null) {
-        final list = data.entries.map((e) {
-          return LearningModel.fromMap(e.key, e.value as Map);
-        }).toList();
-        learningList.value = list;
-      } else {
-        learningList.value = [];
+  void fetchLearningRealtime() {
+    dbRef.onValue.listen((event) {
+
+      learningList.clear();
+
+      if (event.snapshot.exists) {
+
+        for (var item in event.snapshot.children) {
+          learningList.add(
+            LearningModel.fromRealtime(item),
+          );
+        }
       }
-      isLoading.value = false;
+
+      isloading.value = false;
     });
   }
 
+  // ================= COMPLETE TASK =================
+
   void markAsCompleted(LearningModel item) {
+
     Get.defaultDialog(
       title: "Konfirmasi",
       middleText: "Tandai \"${item.subject}\" sebagai selesai?",
@@ -41,21 +54,24 @@ class HomeController extends GetxController {
       textCancel: "Batal",
       confirmTextColor: Colors.white,
       buttonColor: Colors.green,
+
       onConfirm: () async {
         try {
-          // Pindahkan ke history
+
+          // SAVE TO HISTORY
           await historyRef.push().set({
             'subject': item.subject,
             'targetHour': item.targetHour,
             'currentHour': item.currentHour,
             'createdAt': item.createdAt,
-            'completedAt': DateTime.now().toString(),
+            'completedAt': DateTime.now().toIso8601String(),
           });
 
-          // Hapus dari learning tracker
+          // DELETE FROM ACTIVE LIST
           await dbRef.child(item.id).remove();
 
           Get.back();
+
           Get.snackbar(
             "Success",
             "Task berhasil diselesaikan!",
@@ -64,8 +80,11 @@ class HomeController extends GetxController {
             colorText: Colors.white,
             icon: const Icon(Icons.check_circle, color: Colors.white),
           );
+
         } catch (e) {
+
           Get.back();
+
           Get.snackbar(
             "Error",
             "Gagal menyelesaikan task: $e",
@@ -78,7 +97,10 @@ class HomeController extends GetxController {
     );
   }
 
+  // ================= DELETE =================
+
   void deleteItem(String id, String subject) {
+
     Get.defaultDialog(
       title: "Konfirmasi Hapus",
       middleText: "Yakin ingin menghapus \"$subject\"?",
@@ -86,10 +108,14 @@ class HomeController extends GetxController {
       textCancel: "Batal",
       confirmTextColor: Colors.white,
       buttonColor: Colors.red,
+
       onConfirm: () async {
         try {
+
           await dbRef.child(id).remove();
+
           Get.back();
+
           Get.snackbar(
             "Success",
             "Data berhasil dihapus",
@@ -97,8 +123,11 @@ class HomeController extends GetxController {
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
+
         } catch (e) {
+
           Get.back();
+
           Get.snackbar(
             "Error",
             "Gagal menghapus: $e",
@@ -111,8 +140,13 @@ class HomeController extends GetxController {
     );
   }
 
+  // ================= NAVIGATION =================
+
   void editItem(LearningModel item) {
-    Get.toNamed(AppRoutes.updatePage, arguments: item);
+    Get.toNamed(
+      AppRoutes.createPage,
+      arguments: item.id,
+    );
   }
 
   void navigateToCreatePage() {

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4318FF)),
         useMaterial3: true,
       ),
-      initialRoute: AppRoutes.homePage, // Changed from historyPage to homePage
+      initialRoute: AppRoutes.homePage,
       getPages: AppPages.pages,
       debugShowCheckedModeBanner: false,
     );
