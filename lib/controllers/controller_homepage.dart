@@ -82,6 +82,7 @@ class HomeController extends GetxController {
             'currentHour': item.currentHour,
             'createdAt': item.createdAt,
             'completedAt': DateTime.now().toIso8601String(),
+            'priority': item.priority, // ✅ TAMBAH INI
           });
 
           // DELETE FROM ACTIVE LIST

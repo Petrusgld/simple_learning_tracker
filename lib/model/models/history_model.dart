@@ -5,6 +5,7 @@ class HistoryModel {
   String currentHour;
   String createdAt;
   String completedAt;
+  String? priority;
 
   HistoryModel({
     required this.id,
@@ -13,6 +14,7 @@ class HistoryModel {
     required this.currentHour,
     required this.createdAt,
     required this.completedAt,
+    this.priority, 
   });
 
   factory HistoryModel.fromMap(String id, Map data) {
@@ -23,16 +25,18 @@ class HistoryModel {
       currentHour: data['currentHour'] ?? '0',
       createdAt: data['createdAt'] ?? '',
       completedAt: data['completedAt'] ?? '',
+      priority: data['priority'],
     );
   }
 
-  Map<String, dynamic> toMap() {
+ Map<String, dynamic> toMap() {
     return {
       "subject": subject,
       "targetHour": targetHour,
       "currentHour": currentHour,
       "createdAt": createdAt,
       "completedAt": completedAt,
+      "priority": priority,
     };
   }
 }
