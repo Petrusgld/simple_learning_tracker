@@ -27,6 +27,8 @@ class CreateController extends GetxController {
   final dateEditingController = TextEditingController();
   final startTimeEditingController = TextEditingController();
   final endTimeEditingController = TextEditingController();
+  final targetHourEditingController = TextEditingController();
+  final currentHourEditingController = TextEditingController();
 
   //state
 
@@ -85,6 +87,9 @@ class CreateController extends GetxController {
       dateEditingController.text = dueDate.value;
       startTimeEditingController.text = startTimer.value;
       endTimeEditingController.text = endTimer.value;
+
+      targetHourEditingController.text = data['targetHour'] ?? "0";
+      currentHourEditingController.text = data['currentHour'] ?? "0";
 
       String priority = data['priority'] ?? "";
 
@@ -175,6 +180,8 @@ class CreateController extends GetxController {
       "start": startTimer.value,
       "end": endTimer.value,
       "priority": getSelectedPriority(),
+      "targetHour": targetHourEditingController.text.isEmpty ? "0" : targetHourEditingController.text,
+      "currentHour": currentHourEditingController.text.isEmpty ? "0" : currentHourEditingController.text,
       "createdAt": DateTime.now().toIso8601String(),
     };
 
@@ -203,6 +210,8 @@ class CreateController extends GetxController {
     dateEditingController.clear();
     startTimeEditingController.clear();
     endTimeEditingController.clear();
+    targetHourEditingController.clear();
+    currentHourEditingController.clear();
 
     dueDate.value = "";
     startTimer.value = "";
