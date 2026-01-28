@@ -41,7 +41,7 @@ class HistoryController extends GetxController {
       textConfirm: "Hapus",
       textCancel: "Batal",
       confirmTextColor: Colors.white,
-      buttonColor: Colors.red,
+      buttonColor:  Color.fromARGB(255, 156, 11, 1),
       onConfirm: () async {
         try {
           await dbRef.child(id).remove();
@@ -59,7 +59,7 @@ class HistoryController extends GetxController {
             "Error",
             "Gagal menghapus: $e",
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
+            backgroundColor:  Color.fromARGB(255, 156, 11, 1),
             colorText: Colors.white,
           );
         }
@@ -74,7 +74,7 @@ class HistoryController extends GetxController {
       textConfirm: "Hapus Semua",
       textCancel: "Batal",
       confirmTextColor: Colors.white,
-      buttonColor: Colors.red,
+      buttonColor: const Color.fromARGB(255, 156, 11, 1),
       onConfirm: () async {
         try {
           await dbRef.remove();
@@ -92,7 +92,7 @@ class HistoryController extends GetxController {
             "Error",
             "Gagal menghapus: $e",
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
+            backgroundColor:  Color.fromARGB(255, 156, 11, 1),
             colorText: Colors.white,
           );
         }

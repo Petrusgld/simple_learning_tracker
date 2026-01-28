@@ -6,7 +6,6 @@ import 'package:simple_learning_tracker/routes/routes.dart';
 import 'package:simple_learning_tracker/components/color/custom_color.dart';
 
 class HomeController extends GetxController {
-
   // Ubah reference database ke 'tasks' untuk mengambil data dari CreateController
   final dbRef = FirebaseDatabase.instance.ref("tasks");
   final historyRef = FirebaseDatabase.instance.ref("learning_history");
@@ -29,15 +28,11 @@ class HomeController extends GetxController {
 
   void fetchLearningRealtime() {
     dbRef.onValue.listen((event) {
-
       learningList.clear();
 
       if (event.snapshot.exists) {
-
         for (var item in event.snapshot.children) {
-          learningList.add(
-            LearningModel.fromRealtime(item),
-          );
+          learningList.add(LearningModel.fromRealtime(item));
         }
       }
 
@@ -63,7 +58,6 @@ class HomeController extends GetxController {
   // ================= COMPLETE TASK =================
 
   void markAsCompleted(LearningModel item) {
-
     Get.defaultDialog(
       title: "Konfirmasi",
       middleText: "Tandai \"${item.subject}\" sebagai selesai?",
@@ -74,7 +68,6 @@ class HomeController extends GetxController {
 
       onConfirm: () async {
         try {
-
           // SAVE TO HISTORY
           await historyRef.push().set({
             'subject': item.subject,
@@ -98,9 +91,7 @@ class HomeController extends GetxController {
             colorText: Colors.white,
             icon: const Icon(Icons.check_circle, color: Colors.white),
           );
-
         } catch (e) {
-
           Get.back();
 
           Get.snackbar(
@@ -118,7 +109,6 @@ class HomeController extends GetxController {
   // ================= DELETE =================
 
   void deleteItem(String id, String subject) {
-
     Get.defaultDialog(
       title: "Konfirmasi Hapus",
       middleText: "Yakin ingin menghapus \"$subject\"?",
@@ -129,7 +119,6 @@ class HomeController extends GetxController {
 
       onConfirm: () async {
         try {
-
           await dbRef.child(id).remove();
 
           Get.back();
@@ -141,9 +130,7 @@ class HomeController extends GetxController {
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
-
         } catch (e) {
-
           Get.back();
 
           Get.snackbar(
@@ -161,10 +148,9 @@ class HomeController extends GetxController {
   // ================= NAVIGATION =================
 
   void editItem(LearningModel item) {
-    Get.toNamed(
-      AppRoutes.createPage,
-      arguments: item.id,
-    );
+    Get.toNamed(AppRoutes.updatePage, 
+     arguments: item,
+      );
   }
 
   void navigateToCreatePage() {
