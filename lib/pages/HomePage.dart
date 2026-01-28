@@ -105,23 +105,6 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 12),
-
-                  // FILTER CHIP UI ONLY
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _buildFilterChip('All', true),
-                        const SizedBox(width: 8),
-                        _buildFilterChip('Today', false),
-                        const SizedBox(width: 8),
-                        _buildFilterChip('Upcoming', false),
-                        const SizedBox(width: 8),
-                        _buildFilterChip('Personal', false),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -142,17 +125,25 @@ class HomePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.school_outlined,
+                            Icons.task_outlined,
                             size: 80,
                             color: Colors.grey[400],
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            "Belum ada progress belajar",
+                            "Belum ada task",
                             style: TextStyle(
                               color: Colors.grey[600],
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Tap tombol + untuk menambah task baru",
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -161,23 +152,13 @@ class HomePage extends StatelessWidget {
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                     itemCount: controller.learningList.length,
                     itemBuilder: (context, index) {
                       final item = controller.learningList[index];
 
-                      final progress =
-                          (double.tryParse(item.currentHour) ?? 0) /
-                              (double.tryParse(item.targetHour) ?? 1);
-
-                      Color cardColor;
-                      if (index % 3 == 0) {
-                        cardColor = const Color(0xFF4A5FE8);
-                      } else if (index % 3 == 1) {
-                        cardColor = const Color(0xFF00C2FF);
-                      } else {
-                        cardColor = const Color(0xFF2B3674);
-                      }
+                      // Get color based on priority - sesuai dengan CreateController
+                      Color cardColor = controller.getPriorityColor(item.priority);
 
                       return Container(
                         margin: const EdgeInsets.only(bottom: 12),
@@ -185,24 +166,56 @@ class HomePage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: cardColor,
                           borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: cardColor.withOpacity(0.3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
 
-                            // TITLE + MENU
+                            // TITLE + PRIORITY BADGE + MENU
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
-                                  child: Text(
-                                    item.subject,
-                                    style: const TextStyle(
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.subject,
+                                        style: const TextStyle(
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      if (item.priority != null) ...[
+                                        const SizedBox(height: 6),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withOpacity(0.2),
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            item.priority!,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
                                   ),
                                 ),
 
@@ -214,21 +227,39 @@ class HomePage extends StatelessWidget {
                                   itemBuilder: (context) => [
 
                                     PopupMenuItem(
-                                      child: const Text("Edit"),
+                                      child: const Row(
+                                        children: [
+                                          Icon(Icons.edit, size: 18),
+                                          SizedBox(width: 8),
+                                          Text("Edit"),
+                                        ],
+                                      ),
                                       onTap: () => Future.microtask(
                                         () => controller.editItem(item),
                                       ),
                                     ),
 
                                     PopupMenuItem(
-                                      child: const Text("Mark Complete"),
+                                      child: const Row(
+                                        children: [
+                                          Icon(Icons.check_circle, size: 18, color: Colors.green),
+                                          SizedBox(width: 8),
+                                          Text("Mark Complete"),
+                                        ],
+                                      ),
                                       onTap: () => Future.microtask(
                                         () => controller.markAsCompleted(item),
                                       ),
                                     ),
 
                                     PopupMenuItem(
-                                      child: const Text("Delete"),
+                                      child: const Row(
+                                        children: [
+                                          Icon(Icons.delete, size: 18, color: Colors.red),
+                                          SizedBox(width: 8),
+                                          Text("Delete"),
+                                        ],
+                                      ),
                                       onTap: () => Future.microtask(
                                         () => controller.deleteItem(
                                           item.id,
@@ -241,26 +272,60 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 12),
 
-                            Text(
-                              '${item.currentHour}/${item.targetHour} Jam',
-                              style: const TextStyle(
-                                color: Colors.white70,
+                            // DESCRIPTION (if available)
+                            if (item.description != null && item.description!.isNotEmpty) ...[
+                              Text(
+                                item.description!,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
+                              const SizedBox(height: 12),
+                            ],
+
+                            // DATE AND TIME INFO
+                            Row(
+                              children: [
+                                if (item.dueDate != null && item.dueDate!.isNotEmpty) ...[
+                                  const Icon(
+                                    Icons.calendar_today,
+                                    color: Colors.white70,
+                                    size: 14,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    item.dueDate!,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                ],
+                                
+                                if (item.startTime != null && item.startTime!.isNotEmpty) ...[
+                                  const Icon(
+                                    Icons.access_time,
+                                    color: Colors.white70,
+                                    size: 14,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    '${item.startTime} - ${item.endTime ?? ""}',
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
 
-                            const SizedBox(height: 10),
-
-                            LinearProgressIndicator(
-                              value: progress.clamp(0.0, 1.0),
-                              backgroundColor:
-                                  Colors.white.withOpacity(0.3),
-                              valueColor:
-                                  const AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
                           ],
                         ),
                       );
@@ -277,7 +342,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => controller.navigateToCreatePage(),
         backgroundColor: const Color(0xFF4318FF),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

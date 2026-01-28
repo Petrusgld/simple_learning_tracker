@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:simple_learning_tracker/components/button_component.dart';
 import 'package:simple_learning_tracker/components/color/custom_color.dart';
@@ -237,6 +238,8 @@ class CreatePage extends StatelessWidget {
                         },
                       ),
                     ),
+
+                    const SpacingComponent(height: 20),
                   ],
                 ),
               ),

@@ -25,17 +25,22 @@ class LearningModel {
     required this.createdAt,
   });
 
-  // FROM REALTIME DATABASE
+  // FROM REALTIME DATABASE - Updated untuk handle data dari CreateController
   factory LearningModel.fromRealtime(DataSnapshot snapshot) {
     final data = snapshot.value as Map<dynamic, dynamic>;
 
     return LearningModel(
       id: snapshot.key ?? '',
-      subject: data['subject'] ?? '',
-      description: data['description'],
-      dueDate: data['dueDate'],
-      startTime: data['startTime'],
-      endTime: data['endTime'],
+      // CreateController menyimpan dengan key 'title', bukan 'subject'
+      subject: data['title'] ?? data['subject'] ?? '',
+      // CreateController menyimpan dengan key 'desc', bukan 'description'
+      description: data['desc'] ?? data['description'],
+      // CreateController menyimpan dengan key 'date', bukan 'dueDate'
+      dueDate: data['date'] ?? data['dueDate'],
+      // CreateController menyimpan dengan key 'start', bukan 'startTime'
+      startTime: data['start'] ?? data['startTime'],
+      // CreateController menyimpan dengan key 'end', bukan 'endTime'
+      endTime: data['end'] ?? data['endTime'],
       priority: data['priority'],
       targetHour: data['targetHour'] ?? '0',
       currentHour: data['currentHour'] ?? '0',
@@ -46,11 +51,11 @@ class LearningModel {
   // TO REALTIME DATABASE
   Map<String, dynamic> toMap() {
     return {
-      "subject": subject,
-      "description": description,
-      "dueDate": dueDate,
-      "startTime": startTime,
-      "endTime": endTime,
+      "title": subject,
+      "desc": description,
+      "date": dueDate,
+      "start": startTime,
+      "end": endTime,
       "priority": priority,
       "targetHour": targetHour,
       "currentHour": currentHour,

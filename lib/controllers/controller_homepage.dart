@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:simple_learning_tracker/model/models/learning_model.dart';
 import 'package:simple_learning_tracker/routes/routes.dart';
+import 'package:simple_learning_tracker/components/color/custom_color.dart';
 
 class HomeController extends GetxController {
 
-  final dbRef = FirebaseDatabase.instance.ref("learning_tracker");
+  // Ubah reference database ke 'tasks' untuk mengambil data dari CreateController
+  final dbRef = FirebaseDatabase.instance.ref("tasks");
   final historyRef = FirebaseDatabase.instance.ref("learning_history");
 
   // ================= STATE =================
@@ -41,6 +43,21 @@ class HomeController extends GetxController {
 
       isloading.value = false;
     });
+  }
+
+  // ================= GET COLOR BY PRIORITY =================
+  // Sesuai dengan warna di CreateController
+  Color getPriorityColor(String? priority) {
+    switch (priority?.toLowerCase()) {
+      case 'activity':
+        return MainColor.accentColor; // #3C6997
+      case 'study':
+        return MainColor.secondaryColor; // #33A1E0
+      case 'personal':
+        return MainColor.mainColor; // #094074
+      default:
+        return const Color(0xFF2B3674); // Default color
+    }
   }
 
   // ================= COMPLETE TASK =================
