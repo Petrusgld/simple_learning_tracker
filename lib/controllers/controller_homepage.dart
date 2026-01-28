@@ -58,7 +58,7 @@ class HomeController extends GetxController {
           Get.back();
           Get.snackbar(
             "Success",
-            "Todo berhasil diselesaikan!",
+            "Task berhasil diselesaikan!",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.green,
             colorText: Colors.white,
@@ -68,7 +68,7 @@ class HomeController extends GetxController {
           Get.back();
           Get.snackbar(
             "Error",
-            "Gagal menyelesaikan todo: $e",
+            "Gagal menyelesaikan task: $e",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.red,
             colorText: Colors.white,
@@ -117,5 +117,9 @@ class HomeController extends GetxController {
 
   void navigateToCreatePage() {
     Get.toNamed(AppRoutes.createPage);
+  }
+
+  void navigateToHistory() {
+    Get.toNamed(AppRoutes.historyPage);
   }
 }
