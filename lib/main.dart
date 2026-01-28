@@ -21,17 +21,17 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Learning Tracker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4318FF)),
         useMaterial3: true,
       ),
-      initialRoute: AppRoutes.createPage,
+      initialRoute: AppRoutes.homePage,
       getPages: AppPages.pages,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
