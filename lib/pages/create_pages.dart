@@ -20,14 +20,17 @@ class CreatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Init edit data (run once)
+    // Init edit data
     WidgetsBinding.instance.addPostFrameCallback((_) {
       addEditTaskController.initEdit(taskId);
     });
 
+    final width = MediaQuery.of(context).size.width;
+    final scale = width / 375;
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 50),
+        padding: EdgeInsets.only(left: 16 * scale, right: 16 * scale, top: 50 * scale),
         child: Column(
           children: [
             //Headers
@@ -35,8 +38,8 @@ class CreatePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: 45,
-                  height: 45,
+                  width: 45 * scale,
+                  height: 45 * scale,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: MainColor.backgroundColor.withOpacity(0.2),
@@ -54,13 +57,13 @@ class CreatePage extends StatelessWidget {
                     text: addEditTaskController.getHeaderText(),
                     color: MainColor.mainColor,
                     weight: FontWeight.bold,
-                    size: 36,
+                    size: 36 * scale,
                   ),
                 ),
               ],
             ),
 
-            const SpacingComponent(height: 40),
+            SpacingComponent(height: 40 * scale),
 
             //form
             Expanded(
@@ -68,52 +71,52 @@ class CreatePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // TITLE
-                    const CustomText(
+                    // title
+                    CustomText(
                       text: "Title",
                       color: MainColor.textColor2,
                       weight: FontWeight.bold,
-                      size: 18,
+                      size: 18 * scale,
                     ),
 
-                    const SpacingComponent(height: 6),
+                     SpacingComponent(height: 6 * scale),
 
                     CustomTextField2(
                       controller:
                           addEditTaskController.titleEditingController,
                       hintText: "Enter task title...",
                       outlineColor: MainColor.grayColor,
-                      borderRadius: 5,
+                      borderRadius: 5 * scale,
                     ),
 
-                    const SpacingComponent(height: 15),
+                    SpacingComponent(height: 15 * scale),
 
-                    const CustomText(
+                    CustomText(
                       text: "Descriptions",
                       color: MainColor.textColor2,
                       weight: FontWeight.bold,
-                      size: 18,
+                      size: 18 * scale,
                     ),
 
-                    const SpacingComponent(height: 6),
+                    SpacingComponent(height: 6 * scale),
 
                     CustomTextField2(
                       controller: addEditTaskController.descEditingController,
                       hintText: "Enter description task...",
                       outlineColor: MainColor.grayColor,
-                      borderRadius: 5,
+                      borderRadius: 5 * scale,
                     ),
 
-                    const SpacingComponent(height: 15),
+                    SpacingComponent(height: 15 * scale),
 
-                    const CustomText(
+                    CustomText(
                       text: "Due Date",
                       color: MainColor.textColor2,
                       weight: FontWeight.bold,
-                      size: 18,
+                      size: 18 * scale,
                     ),
 
-                    const SpacingComponent(height: 6),
+                    SpacingComponent(height: 6 * scale),
 
                     CustomTextField2(
                       controller:
@@ -121,7 +124,7 @@ class CreatePage extends StatelessWidget {
                       readOnly: true,
                       hintText: "Select Date",
                       outlineColor: MainColor.grayColor,
-                      borderRadius: 5,
+                      borderRadius: 5 * scale,
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.calendar_today),
                         onPressed: () =>
@@ -129,20 +132,20 @@ class CreatePage extends StatelessWidget {
                       ),
                     ),
 
-                    const SpacingComponent(height: 15), 
+                    SpacingComponent(height: 15 * scale),
                     Row(
                       children: [
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const CustomText(
+                              CustomText(
                                 text: "Start Time",
                                 color: MainColor.textColor2,
                                 weight: FontWeight.bold,
-                                size: 18,
+                                size: 18 * scale,
                               ),
-                              const SpacingComponent(height: 5),
+                              SpacingComponent(height: 5 * scale),
 
                               CustomTextField2(
                                 controller: addEditTaskController
@@ -150,7 +153,7 @@ class CreatePage extends StatelessWidget {
                                 readOnly: true,
                                 hintText: "Start",
                                 outlineColor: MainColor.grayColor,
-                                borderRadius: 5,
+                                borderRadius: 5 * scale,
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () =>
@@ -162,19 +165,19 @@ class CreatePage extends StatelessWidget {
                           ),
                         ),
 
-                        const SpacingComponent(width: 10),
+                        SpacingComponent(width: 10 * scale),
 
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const CustomText(
+                              CustomText(
                                 text: "End Time",
                                 color: MainColor.textColor2,
                                 weight: FontWeight.bold,
-                                size: 18,
+                                size: 18 * scale,
                               ),
-                              const SpacingComponent(height: 5),
+                              SpacingComponent(height: 5 * scale),
 
                               CustomTextField2(
                                 controller: addEditTaskController
@@ -182,7 +185,7 @@ class CreatePage extends StatelessWidget {
                                 readOnly: true,
                                 hintText: "End",
                                 outlineColor: MainColor.grayColor,
-                                borderRadius: 5,
+                                borderRadius: 5 * scale,
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.access_time),
                                   onPressed: () =>
@@ -196,19 +199,19 @@ class CreatePage extends StatelessWidget {
                       ],
                     ),
 
-                    const SpacingComponent(height: 20),
+                    SpacingComponent(height: 20 * scale),
 
-                    const CustomText(
+                    CustomText(
                       text: "Priority",
                       color: MainColor.textColor2,
                       weight: FontWeight.bold,
-                      size: 18,
+                      size: 18 * scale,
                     ),
 
-                    const SpacingComponent(height: 10),
+                    SpacingComponent(height: 10 * scale),
 
                     SizedBox(
-                      height: 40,
+                      height: 40 * scale,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount:
@@ -239,22 +242,22 @@ class CreatePage extends StatelessWidget {
                       ),
                     ),
 
-                    const SpacingComponent(height: 20),
+                    SpacingComponent(height: 20 * scale),
                   ],
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 28),
+              padding: EdgeInsets.only(bottom: 28 * scale),
               child: SizedBox(
                 width: double.infinity,
                 child: Obx(
                   () => ButtonComponent(
-                    height: 60,
-                    width: 376,
+                    height: 60 * scale,
+                    width: 376 * scale,
                     backgroundColor: MainColor.mainColor,
                     text: addEditTaskController.getButtonText(),
-                    size: 24,
+                    size: 24 * scale,
                     weight: FontWeight.bold,
                     onPressed: () {
                       addEditTaskController.saveTask();

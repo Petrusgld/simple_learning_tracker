@@ -41,6 +41,9 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final HistoryController controller = Get.find<HistoryController>();
 
+    final width = MediaQuery.of(context).size.width;
+    final scale = width / 375;
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: Obx(
@@ -52,7 +55,7 @@ class HistoryPage extends StatelessWidget {
                     children: [
                       // Header dengan tombol back untuk empty state
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                        padding: EdgeInsets.fromLTRB(16 * scale, 24 * scale, 16 * scale, 8 * scale),
                         child: Row(
                           children: [
                             IconButton(
@@ -63,13 +66,13 @@ class HistoryPage extends StatelessWidget {
                               onPressed: () => Get.back(),
                               tooltip: "Kembali",
                             ),
-                            const SizedBox(width: 8),
-                            const Expanded(
+                            SizedBox(width: 8 * scale),
+                            Expanded(
                               child: Text(
                                 "Completed",
                                 style: TextStyle(
                                   color: Color(0xFF1E3A5F),
-                                  fontSize: 28,
+                                  fontSize: 28 * scale,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -88,21 +91,21 @@ class HistoryPage extends StatelessWidget {
                                 size: 100,
                                 color: Colors.grey[400],
                               ),
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16 * scale),
                               Text(
                                 "Belum ada history",
                                 style: TextStyle(
                                   color: Colors.grey[600],
-                                  fontSize: 18,
+                                  fontSize: 18 * scale,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8 * scale),
                               Text(
                                 "Todo yang selesai akan muncul di sini",
                                 style: TextStyle(
                                   color: Colors.grey[500],
-                                  fontSize: 14,
+                                  fontSize: 14 * scale,
                                 ),
                               ),
                             ],
@@ -116,7 +119,7 @@ class HistoryPage extends StatelessWidget {
                     children: [
                       // Header "Completed" dengan tombol back
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                        padding: EdgeInsets.fromLTRB(16 * scale, 24 * scale, 16 * scale, 8 * scale),
                         child: Row(
                           children: [
                             // Tombol back
@@ -128,14 +131,14 @@ class HistoryPage extends StatelessWidget {
                               onPressed: () => Get.back(),
                               tooltip: "Kembali",
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8 * scale),
                             // Title "Completed"
-                            const Expanded(
+                            Expanded(
                               child: Text(
                                 "Completed",
                                 style: TextStyle(
                                   color: Color(0xFF1E3A5F),
-                                  fontSize: 28,
+                                  fontSize: 28 * scale,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -155,7 +158,7 @@ class HistoryPage extends StatelessWidget {
                       // List of completed tasks
                       Expanded(
                         child: ListView.builder(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16 * scale),
                           itemCount: controller.historyList.length,
                           itemBuilder: (context, index) {
                             final item = controller.historyList[index];
@@ -163,11 +166,11 @@ class HistoryPage extends StatelessWidget {
                             final cardColor = _getPriorityColor(item.priority ?? 'Activity');
 
                             return Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              padding: const EdgeInsets.all(20),
+                              margin: EdgeInsets.only(bottom: 16 * scale),
+                              padding: EdgeInsets.all(20 * scale),
                               decoration: BoxDecoration(
                                 color: cardColor,
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(16 * scale),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,19 +185,19 @@ class HistoryPage extends StatelessWidget {
                                           children: [
                                             Text(
                                               item.subject,
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 20,
+                                                fontSize: 20 * scale,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             // Priority badge
                                             if (item.priority != null) ...[
-                                              const SizedBox(height: 6),
+                                              SizedBox(height: 6 * scale),
                                               Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 4,
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 10 * scale,
+                                                  vertical: 4 * scale,
                                                 ),
                                                 decoration: BoxDecoration(
                                                   color: Colors.white.withOpacity(0.2),
@@ -202,9 +205,9 @@ class HistoryPage extends StatelessWidget {
                                                 ),
                                                 child: Text(
                                                   item.priority!,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 12,
+                                                    fontSize: 12 * scale,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
@@ -235,30 +238,30 @@ class HistoryPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  SizedBox(height: 8 * scale),
                                   // Subtitle (target and achieved hours)
                                   Text(
                                     'Target: ${item.targetHour} jam • Tercapai: ${item.currentHour} jam',
                                     style: TextStyle(
                                       color: Colors.white.withOpacity(0.9),
-                                      fontSize: 14,
+                                      fontSize: 14 * scale,
                                     ),
                                   ),
-                                  const SizedBox(height: 12),
+                                  SizedBox(height: 12 * scale),
                                   // Time with icon
                                   Row(
                                     children: [
                                       Icon(
                                         Icons.access_time,
-                                        size: 16,
+                                        size: 16 * scale,
                                         color: Colors.white.withOpacity(0.9),
                                       ),
-                                      const SizedBox(width: 6),
+                                      SizedBox(width: 6 * scale),
                                       Text(
                                         _formatDate(item.completedAt),
                                         style: TextStyle(
                                           color: Colors.white.withOpacity(0.9),
-                                          fontSize: 14,
+                                          fontSize: 14 * scale,
                                         ),
                                       ),
                                     ],

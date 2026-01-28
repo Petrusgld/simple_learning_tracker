@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_learning_tracker/components/custom_spacing.dart';
 import 'package:simple_learning_tracker/controllers/controller_homepage.dart';
 import 'package:intl/intl.dart';
 
@@ -25,6 +26,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final width = MediaQuery.of(context).size.width;
+    final scale = width / 375;
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
@@ -32,15 +37,15 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            // ================= HEADER =================
+            //header
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+              padding: EdgeInsets.fromLTRB(20 * scale, 12 * scale, 20 * scale, 12 * scale),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
+                    blurRadius: 10 * scale,
                     offset: const Offset(0, 2),
                   ),
                 ],
@@ -54,45 +59,45 @@ class HomePage extends StatelessWidget {
                       Text(
                         _getGreeting(),
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 14 * scale,
                           color: Colors.grey[600],
                         ),
                       ),
                       const Spacer(),
                       IconButton(
-                        icon: const Icon(Icons.history, size: 22),
+                        icon: Icon(Icons.history, size: 22 * scale),
                         onPressed: () => controller.navigateToHistory(),
                       ),
                     ],
                   ),
 
-                  const Text(
+                  Text(
                     'Hello, Matthew!',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 24 * scale,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF2B3674),
+                      color: const Color(0xFF2B3674),
                     ),
                   ),
 
                   const SizedBox(height: 6),
 
-                  // COUNT TASK REACTIVE
+                  //count task
                   Obx(
                     () => RichText(
                       text: TextSpan(
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 14 * scale,
                           color: Colors.grey[700],
                         ),
                         children: [
                           const TextSpan(text: 'You have '),
                           TextSpan(
                             text: '${controller.learningList.length}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF4318FF),
-                              fontSize: 16,
+                              color: const Color(0xFF4318FF),
+                              fontSize: 16 * scale,
                             ),
                           ),
                           TextSpan(
@@ -109,7 +114,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // ================= TASK LIST =================
+            //task list
             Expanded(
               child: Obx(
                 () {
@@ -126,24 +131,24 @@ class HomePage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.task_outlined,
-                            size: 80,
+                            size: 80 * scale,
                             color: Colors.grey[400],
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: 12 * scale),
                           Text(
                             "Belum ada task",
                             style: TextStyle(
                               color: Colors.grey[600],
-                              fontSize: 16,
+                              fontSize: 16 * scale,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8 * scale),
                           Text(
                             "Tap tombol + untuk menambah task baru",
                             style: TextStyle(
                               color: Colors.grey[500],
-                              fontSize: 14,
+                              fontSize: 14 * scale,
                             ),
                           ),
                         ],
@@ -152,7 +157,7 @@ class HomePage extends StatelessWidget {
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 20 * scale, vertical: 16 * scale),
                     itemCount: controller.learningList.length,
                     itemBuilder: (context, index) {
                       final item = controller.learningList[index];
@@ -161,11 +166,11 @@ class HomePage extends StatelessWidget {
                       Color cardColor = controller.getPriorityColor(item.priority);
 
                       return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(18),
+                        margin: EdgeInsets.only(bottom: 12 * scale),
+                        padding: EdgeInsets.all(18 * scale),
                         decoration: BoxDecoration(
                           color: cardColor,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16 * scale),
                           boxShadow: [
                             BoxShadow(
                               color: cardColor.withOpacity(0.3),
@@ -188,18 +193,18 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Text(
                                         item.subject,
-                                        style: const TextStyle(
-                                          fontSize: 19,
+                                        style: TextStyle(
+                                          fontSize: 19 * scale,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                         ),
                                       ),
                                       if (item.priority != null) ...[
-                                        const SizedBox(height: 6),
+                                        SizedBox(height: 6 * scale),
                                         Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 4,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 10 * scale,
+                                            vertical: 4 * scale,
                                           ),
                                           decoration: BoxDecoration(
                                             color: Colors.white.withOpacity(0.2),
@@ -207,9 +212,9 @@ class HomePage extends StatelessWidget {
                                           ),
                                           child: Text(
                                             item.priority!,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 12,
+                                              fontSize: 12 * scale,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -227,10 +232,10 @@ class HomePage extends StatelessWidget {
                                   itemBuilder: (context) => [
 
                                     PopupMenuItem(
-                                      child: const Row(
+                                      child: Row(
                                         children: [
-                                          Icon(Icons.edit, size: 18),
-                                          SizedBox(width: 8),
+                                          Icon(Icons.edit, size: 18 * scale),
+                                          SizedBox(width: 8 * scale),
                                           Text("Edit"),
                                         ],
                                       ),
@@ -240,10 +245,10 @@ class HomePage extends StatelessWidget {
                                     ),
 
                                     PopupMenuItem(
-                                      child: const Row(
+                                      child: Row(
                                         children: [
-                                          Icon(Icons.check_circle, size: 18, color: Colors.green),
-                                          SizedBox(width: 8),
+                                          Icon(Icons.check_circle, size: 18 * scale, color: Colors.green),
+                                          SizedBox(width: 8 * scale),
                                           Text("Mark Complete"),
                                         ],
                                       ),
@@ -253,10 +258,10 @@ class HomePage extends StatelessWidget {
                                     ),
 
                                     PopupMenuItem(
-                                      child: const Row(
+                                      child: Row(
                                         children: [
-                                          Icon(Icons.delete, size: 18, color: Colors.red),
-                                          SizedBox(width: 8),
+                                          Icon(Icons.delete, size: 18 * scale, color: Colors.red),
+                                          SizedBox(width: 8 * scale),
                                           Text("Delete"),
                                         ],
                                       ),
@@ -272,32 +277,32 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 12),
+                            CustomSpacing(height: 12 * scale),
 
-                            // DESCRIPTION (if available)
+                            //description
                             if (item.description != null && item.description!.isNotEmpty) ...[
                               Text(
                                 item.description!,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white70,
-                                  fontSize: 14,
+                                  fontSize: 14 * scale,
                                 ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12 * scale),
                             ],
 
                             // DATE AND TIME INFO
                             Row(
                               children: [
                                 if (item.dueDate != null && item.dueDate!.isNotEmpty) ...[
-                                  const Icon(
+                                  Icon(
                                     Icons.calendar_today,
                                     color: Colors.white70,
-                                    size: 14,
+                                    size: 14 * scale,
                                   ),
-                                  const SizedBox(width: 6),
+                                  SizedBox(width: 6 * scale),
                                   Text(
                                     item.dueDate!,
                                     style: const TextStyle(
@@ -305,21 +310,21 @@ class HomePage extends StatelessWidget {
                                       fontSize: 13,
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                  SizedBox(width: 16 * scale),
                                 ],
                                 
                                 if (item.startTime != null && item.startTime!.isNotEmpty) ...[
-                                  const Icon(
+                                  Icon(
                                     Icons.access_time,
                                     color: Colors.white70,
-                                    size: 14,
+                                    size: 14 * scale,
                                   ),
-                                  const SizedBox(width: 6),
+                                  SizedBox(width: 6 * scale),
                                   Text(
                                     '${item.startTime} - ${item.endTime ?? ""}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white70,
-                                      fontSize: 13,
+                                      fontSize: 13 * scale,
                                     ),
                                   ),
                                 ],
@@ -338,30 +343,11 @@ class HomePage extends StatelessWidget {
         ),
       ),
 
-      // ================= FAB =================
+      //fab
       floatingActionButton: FloatingActionButton(
         onPressed: () => controller.navigateToCreatePage(),
         backgroundColor: const Color(0xFF4318FF),
         child: const Icon(Icons.add, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(String label, bool isSelected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-      decoration: BoxDecoration(
-        color: isSelected ? const Color(0xFF4318FF) : Colors.grey[200],
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.grey[700],
-          fontWeight:
-              isSelected ? FontWeight.bold : FontWeight.normal,
-          fontSize: 13,
-        ),
       ),
     );
   }
