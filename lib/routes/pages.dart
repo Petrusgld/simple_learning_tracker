@@ -15,16 +15,16 @@ class AppPages {
       binding: CreateBinding(),
     ),
 
-    GetPage(
-      name: AppRoutes.homePage,
-      page: () => HomePage(),
-      binding: HomeBindings(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.homePage,
+    //   page: () => HomePage(),
+    //   binding: HomeBindings(),
+    // ),
 
-    GetPage(
-      name: AppRoutes.updatePage,
-      page: () => UpdatePage(),
-      binding: UpdateBinding(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.updatePage,
+    //   page: () => UpdatePage(),
+    //   binding: UpdateBinding(),
+    // ),
   ];
 }

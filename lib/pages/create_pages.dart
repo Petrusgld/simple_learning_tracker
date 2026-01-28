@@ -1,141 +1,266 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_learning_tracker/components/custom_spacing.dart';
-import 'package:simple_learning_tracker/components/custom_textfield.dart';
+import 'package:simple_learning_tracker/components/button_component.dart';
+import 'package:simple_learning_tracker/components/color/custom_color.dart';
+import 'package:simple_learning_tracker/components/customtext_component.dart';
+import 'package:simple_learning_tracker/components/customtextfield2_component.dart';
+import 'package:simple_learning_tracker/components/space_component.dart';
 import 'package:simple_learning_tracker/controllers/create_controller.dart';
 
 class CreatePage extends StatelessWidget {
-  CreatePage({super.key});
+  CreatePage({super.key, this.taskId});
 
-  final controller = Get.put(CreateController());
+  final String? taskId;
 
-  final subjectController = TextEditingController();
-  final targetController = TextEditingController();
-  final currentController = TextEditingController();
+  final CreateController addEditTaskController = Get.put(
+    CreateController(),
+    permanent: false,
+  );
 
   @override
   Widget build(BuildContext context) {
+    // Init edit data (run once)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      addEditTaskController.initEdit(taskId);
+    });
+
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-
-      appBar: AppBar(title: const Text(""), centerTitle: true, elevation: 0),
-
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Tambah Progress Belajar",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-
-              const CustomSpacing(height: 6),
-
-              const Text(
-                "Catat target dan jam belajar kamu hari ini",
-                style: TextStyle(color: Colors.grey),
-              ),
-
-              const CustomSpacing(height: 20),
-
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 50),
+        child: Column(
+          children: [
+            //Headers
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: MainColor.backgroundColor.withOpacity(0.2),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      Get.back();
+                      Get.delete<CreateController>();
+                    },
+                    icon: Icon(Icons.arrow_back, color: MainColor.mainColor),
+                  ),
                 ),
+                Obx(
+                  () => CustomText(
+                    text: addEditTaskController.getHeaderText(),
+                    color: MainColor.mainColor,
+                    weight: FontWeight.bold,
+                    size: 36,
+                  ),
+                ),
+              ],
+            ),
 
+            const SpacingComponent(height: 40),
+
+            //form
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    CustomTextField(
-                      controller: subjectController,
-                      label: "Mata Pelajaran",
-                      icon: Icons.book,
+                    // TITLE
+                    const CustomText(
+                      text: "Title",
+                      color: MainColor.textColor2,
+                      weight: FontWeight.bold,
+                      size: 18,
                     ),
 
-                    const CustomSpacing(height: 16),
+                    const SpacingComponent(height: 6),
 
-                    CustomTextField(
-                      controller: targetController,
-                      label: "Target Jam Belajar",
-                      icon: Icons.flag,
+                    CustomTextField2(
+                      controller:
+                          addEditTaskController.titleEditingController,
+                      hintText: "Enter task title...",
+                      outlineColor: MainColor.grayColor,
+                      borderRadius: 5,
                     ),
 
-                    const CustomSpacing(height: 16),
+                    const SpacingComponent(height: 15),
 
-                    CustomTextField(
-                      controller: currentController,
-                      label: "Jam Belajar Saat Ini",
-                      icon: Icons.timer,
+                    const CustomText(
+                      text: "Descriptions",
+                      color: MainColor.textColor2,
+                      weight: FontWeight.bold,
+                      size: 18,
                     ),
 
-                    const CustomSpacing(height: 25),
+                    const SpacingComponent(height: 6),
 
-                    //save
-                    Obx(
-                      () => SizedBox(
-                        width: double.infinity,
-                        height: 50,
+                    CustomTextField2(
+                      controller: addEditTaskController.descEditingController,
+                      hintText: "Enter description task...",
+                      outlineColor: MainColor.grayColor,
+                      borderRadius: 5,
+                    ),
 
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
+                    const SpacingComponent(height: 15),
 
-                          onPressed: controller.isLoading.value
-                              ? null
-                              : () {
-                                  if (subjectController.text.isEmpty ||
-                                      targetController.text.isEmpty ||
-                                      currentController.text.isEmpty) {
-                                    Get.snackbar(
-                                      "Warning",
-                                      "Semua field wajib diisi",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                    );
-                                    return;
-                                  }
+                    const CustomText(
+                      text: "Due Date",
+                      color: MainColor.textColor2,
+                      weight: FontWeight.bold,
+                      size: 18,
+                    ),
 
-                                  controller.addLearning(
-                                    subjectController.text,
-                                    targetController.text,
-                                    currentController.text,
-                                  );
+                    const SpacingComponent(height: 6),
 
-                                  subjectController.clear();
-                                  targetController.clear();
-                                  currentController.clear();
-                                },
+                    CustomTextField2(
+                      controller:
+                          addEditTaskController.dateEditingController,
+                      readOnly: true,
+                      hintText: "Select Date",
+                      outlineColor: MainColor.grayColor,
+                      borderRadius: 5,
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.calendar_today),
+                        onPressed: () =>
+                            addEditTaskController.pickerDate(context),
+                      ),
+                    ),
 
-                          child: controller.isLoading.value
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
-                              : const Text(
-                                  "Simpan Progress",
-                                  style: TextStyle(fontSize: 16),
+                    const SpacingComponent(height: 15), 
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const CustomText(
+                                text: "Start Time",
+                                color: MainColor.textColor2,
+                                weight: FontWeight.bold,
+                                size: 18,
+                              ),
+                              const SpacingComponent(height: 5),
+
+                              CustomTextField2(
+                                controller: addEditTaskController
+                                    .startTimeEditingController,
+                                readOnly: true,
+                                hintText: "Start",
+                                outlineColor: MainColor.grayColor,
+                                borderRadius: 5,
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.access_time),
+                                  onPressed: () =>
+                                      addEditTaskController.spickerTime(
+                                          context),
                                 ),
+                              ),
+                            ],
+                          ),
                         ),
+
+                        const SpacingComponent(width: 10),
+
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const CustomText(
+                                text: "End Time",
+                                color: MainColor.textColor2,
+                                weight: FontWeight.bold,
+                                size: 18,
+                              ),
+                              const SpacingComponent(height: 5),
+
+                              CustomTextField2(
+                                controller: addEditTaskController
+                                    .endTimeEditingController,
+                                readOnly: true,
+                                hintText: "End",
+                                outlineColor: MainColor.grayColor,
+                                borderRadius: 5,
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.access_time),
+                                  onPressed: () =>
+                                      addEditTaskController.epickerTime(
+                                          context),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SpacingComponent(height: 20),
+
+                    const CustomText(
+                      text: "Priority",
+                      color: MainColor.textColor2,
+                      weight: FontWeight.bold,
+                      size: 18,
+                    ),
+
+                    const SpacingComponent(height: 10),
+
+                    SizedBox(
+                      height: 40,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount:
+                            addEditTaskController.listPriority.length,
+                        itemBuilder: (context, index) {
+                          return Obx(
+                            () => ButtonComponent(
+                              weight: FontWeight.w600,
+                              backgroundColor:
+                                  addEditTaskController
+                                          .listPriority[index]
+                                          .priorityBool
+                                          .value
+                                      ? addEditTaskController
+                                          .listPriority[index]
+                                          .color
+                                      : Colors.transparent,
+                              outlineColor: addEditTaskController
+                                  .listPriority[index].color,
+                              text: addEditTaskController
+                                  .listPriority[index].priorityText,
+                              onPressed: () {
+                                addEditTaskController.onHandle(index);
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 28),
+              child: SizedBox(
+                width: double.infinity,
+                child: Obx(
+                  () => ButtonComponent(
+                    height: 60,
+                    width: 376,
+                    backgroundColor: MainColor.mainColor,
+                    text: addEditTaskController.getButtonText(),
+                    size: 24,
+                    weight: FontWeight.bold,
+                    onPressed: () {
+                      addEditTaskController.saveTask();
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
