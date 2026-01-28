@@ -6,6 +6,8 @@ import 'package:simple_learning_tracker/pages/homePage.dart';
 import 'package:simple_learning_tracker/routes/routes.dart';
 import 'package:simple_learning_tracker/bindings/update_binding.dart';
 import 'package:simple_learning_tracker/pages/update_page.dart';
+import 'package:simple_learning_tracker/bindings/histoty_binding.dart';
+import 'package:simple_learning_tracker/pages/history_page.dart';
 
 class AppPages {
   static final pages = [
@@ -25,6 +27,12 @@ class AppPages {
       name: AppRoutes.updatePage,
       page: () => UpdatePage(),
       binding: UpdateBinding(),
+    ),
+
+    GetPage(
+      name: AppRoutes.historyPage,
+      page: () => HistoryPage(),
+      binding: HistoryBinding(),
     ),
   ];
 }
