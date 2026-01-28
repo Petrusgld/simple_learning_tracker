@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_learning_tracker/components/color/custom_color.dart';
 import 'package:simple_learning_tracker/components/custom_spacing.dart';
 import 'package:simple_learning_tracker/controllers/controller_homepage.dart';
 import 'package:intl/intl.dart';
@@ -342,11 +343,11 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-
+    
       //fab
       floatingActionButton: FloatingActionButton(
         onPressed: () => controller.navigateToCreatePage(),
-        backgroundColor: const Color(0xFF4318FF),
+        backgroundColor: MainColor.mainColor,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
